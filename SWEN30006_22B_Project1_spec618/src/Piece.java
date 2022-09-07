@@ -4,6 +4,7 @@ import ch.aplu.jgamegrid.Actor;
 import ch.aplu.jgamegrid.GameGrid;
 import ch.aplu.jgamegrid.Location;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class Piece extends ch.aplu.jgamegrid.Actor
@@ -75,7 +76,13 @@ public abstract class Piece extends ch.aplu.jgamegrid.Actor
             if (!advance())
             {
                 if (nb == 0)  // Game is over when tetrisBlock cannot fall down
-                    tetris.gameOver();
+                {
+                    try {
+                        tetris.gameOver();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 else
                 {
                     setActEnabled(false);

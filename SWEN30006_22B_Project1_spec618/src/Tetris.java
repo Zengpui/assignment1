@@ -2,6 +2,7 @@ package src;// Tetris.java
 
 import ch.aplu.jgamegrid.*;
 
+import java.io.IOException;
 import java.security.Key;
 import java.util.*;
 import java.awt.event.KeyEvent;
@@ -16,6 +17,12 @@ public class Tetris extends JFrame implements GGActListener {
     private Actor blockPreview = null;   // block in preview window
     private int score = 0;
     private int slowDown = 5;
+
+    private int roundNum=1;
+
+    Statistics stats = new Statistics();
+
+
     private Random random = new Random(0);
 
     private TetrisGameCallback gameCallback;
@@ -30,6 +37,7 @@ public class Tetris extends JFrame implements GGActListener {
 
     // Initialise object
     private void initWithProperties(Properties properties) {
+        stats.addRound(roundNum);
         this.seed = Integer.parseInt(properties.getProperty("seed", "30006"));
         random = new Random(seed);
         isAuto = Boolean.parseBoolean(properties.getProperty("isAuto"));
@@ -190,6 +198,7 @@ public class Tetris extends JFrame implements GGActListener {
         else{
             t.setSlowDown(slowDown);
         }
+        stats.updateRound(this.roundNum,rnd,this.score);
         return t;
     }
 
@@ -278,17 +287,21 @@ public class Tetris extends JFrame implements GGActListener {
 
     }
 
-    void gameOver() {
+    void gameOver() throws IOException {
+        stats.recordStats(this.roundNum);
         gameGrid1.addActor(new Actor("sprites/gameover.gif"), new Location(5, 5));
         gameGrid1.doPause();
         if (isAuto) {
             System.exit(0);
         }
+
     }
 
     // Start a new game
     public void startBtnActionPerformed(java.awt.event.ActionEvent evt)
     {
+        roundNum++;
+        stats.addRound(roundNum);
         gameGrid1.doPause();
         gameGrid1.removeAllActors();
         gameGrid2.removeAllActors();
