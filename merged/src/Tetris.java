@@ -15,6 +15,11 @@ public class Tetris extends JFrame implements GGActListener {
     private Actor currentBlock = null;  // Currently active block
     private Actor blockPreview = null;   // block in preview window
     private int score = 0;
+
+    private Statistics stats = new Statistics();
+
+    private int roundNum=1;
+
     private int slowDown = 5;
     private Random random = new Random(0);
 
@@ -30,6 +35,7 @@ public class Tetris extends JFrame implements GGActListener {
 
     // Initialise object
     private void initWithProperties(Properties properties) {
+
         this.seed = Integer.parseInt(properties.getProperty("seed", "30006"));
         random = new Random(seed);
         isAuto = Boolean.parseBoolean(properties.getProperty("isAuto"));
@@ -39,13 +45,14 @@ public class Tetris extends JFrame implements GGActListener {
         String difficultyStr;
         difficultyStr  = properties.getProperty("difficulty", "easy");
         difficulty = difficultyLevel.valueOf(difficultyStr.substring(0, 1).toUpperCase() + difficultyStr.substring(1));
-
+        stats.updateDifficulty(difficulty.ordinal());
 
     }
 
     public Tetris(TetrisGameCallback gameCallback, Properties properties) {
         // Initialise value
         initWithProperties(properties);
+
         this.gameCallback = gameCallback;
         blockActionIndex = 0;
 
@@ -190,6 +197,8 @@ public class Tetris extends JFrame implements GGActListener {
         else{
             t.setSlowDown(slowDown);
         }
+        stats.updateRound(roundNum,rnd,this.score);
+        stats.recordStats(roundNum);
         return t;
     }
 
@@ -291,6 +300,8 @@ public class Tetris extends JFrame implements GGActListener {
     // Start a new game
     public void startBtnActionPerformed(java.awt.event.ActionEvent evt)
     {
+        roundNum++;
+        stats.addRound(roundNum);
         gameGrid1.doPause();
         gameGrid1.removeAllActors();
         gameGrid2.removeAllActors();

@@ -3,13 +3,13 @@ Average score per round: 0
 ------------------------------------------
 Round #1
 Score: 0
-I: 3
-J: 0
-L: 0
-O: 1
-S: 1
-T: 2
-Z: 0
-P: 0
-Plus: 0
-Q: 0
+I: 5
+J: 6
+L: 2
+O: 2
+S: 4
+T: 4
+Z: 3
+P: 6
+Plus: 3
+Q: 6
