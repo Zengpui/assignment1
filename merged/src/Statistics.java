@@ -14,7 +14,7 @@ public class Statistics {
     public int difficulty;
     List<Round> stats = new ArrayList<Round>();
     public void Statistics(){
-    this.addRound(1);
+
     }
     public void updateDifficulty(int difficulty){
         this.difficulty=difficulty;

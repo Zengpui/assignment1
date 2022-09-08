@@ -52,6 +52,7 @@ public class Tetris extends JFrame implements GGActListener {
     public Tetris(TetrisGameCallback gameCallback, Properties properties) {
         // Initialise value
         initWithProperties(properties);
+        stats.addRound(roundNum);
 
         this.gameCallback = gameCallback;
         blockActionIndex = 0;
