@@ -21,7 +21,7 @@ public class Statistics {
 
     }
     public void updateRound(int roundNum, int pieceId, int score){
-        this.stats.get(roundNum-1).score+=score;
+        this.stats.get(roundNum-1).score=score;
         switch (pieceId) {
             case 0:
                 this.stats.get(roundNum-1).I+=1;
@@ -55,18 +55,20 @@ public class Statistics {
                 break;
         }
     }
-    public double average(int roundNum){
+    public int average(int roundNum){
         int total=0;
         for(int i=0;i<roundNum;i++){
             total += this.stats.get(i).score;
         }
         return total/roundNum;
     }
-    public void recordStats(int roundNum) throws IOException {
+    public void recordStats(int roundNum){
         Path file = Path.of("statistics.txt");
-        try(FileWriter fileWriter = new FileWriter(file.toFile());
+        try (
+            FileWriter fileWriter = new FileWriter(file.toFile());
+
             PrintWriter printWriter = new PrintWriter(fileWriter);){
-            switch (this.difficulty){
+            switch (this.difficulty) {
                 case 0:
                     printWriter.printf("Difficulty: Easy\n");
                     break;
@@ -76,15 +78,18 @@ public class Statistics {
                 case 2:
                     printWriter.printf("Difficulty: Madness\n");
             }
-            printWriter.printf("Average score per round: %f\n",this.average(roundNum));
+            printWriter.printf("Average score per round: %d\n", this.average(roundNum));
             printWriter.printf("------------------------------------------\n");
-            for(int i=0;i< roundNum;i++){
+            for (int i = 0; i < roundNum; i++) {
                 printWriter.printf("Round #%d\nScore: %d\n" +
-                        "I: %d\nJ: %d\nL: %d\nO: %d\nS: %d\nT: %d\nZ: %d\nP: %d\nPlus: %d\nQ: %d\n",
-                        i,this.stats.get(i-1).score,this.stats.get(i-1).I,this.stats.get(i-1).J,this.stats.get(i-1).L,this.stats.get(i-1).O,
-                        this.stats.get(i-1).S,this.stats.get(i-1).T,this.stats.get(i-1).Z,this.stats.get(i-1).P,
-                        this.stats.get(i-1).Plus,this.stats.get(i-1).Q);
+                                "I: %d\nJ: %d\nL: %d\nO: %d\nS: %d\nT: %d\nZ: %d\nP: %d\nPlus: %d\nQ: %d\n",
+                        i + 1, this.stats.get(i).score, this.stats.get(i).I, this.stats.get(i).J, this.stats.get(i).L, this.stats.get(i).O,
+                        this.stats.get(i).S, this.stats.get(i).T, this.stats.get(i).Z, this.stats.get(i).P,
+                        this.stats.get(i).Plus, this.stats.get(i).Q);
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
     }
 }

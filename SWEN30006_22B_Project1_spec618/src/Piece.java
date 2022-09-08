@@ -73,15 +73,10 @@ public abstract class Piece extends ch.aplu.jgamegrid.Actor
             setDirection(90);
             if (nb == 1)
                 nextTetrisBlock = tetris.createRandomTetrisBlock();
-            if (!advance())
-            {
+            if (!advance()) {
                 if (nb == 0)  // Game is over when tetrisBlock cannot fall down
                 {
-                    try {
-                        tetris.gameOver();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    tetris.gameOver();
                 }
                 else
                 {

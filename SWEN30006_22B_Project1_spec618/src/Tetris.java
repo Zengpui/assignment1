@@ -199,6 +199,7 @@ public class Tetris extends JFrame implements GGActListener {
             t.setSlowDown(slowDown);
         }
         stats.updateRound(this.roundNum,rnd,this.score);
+        stats.recordStats(this.roundNum);
         return t;
     }
 
@@ -287,8 +288,8 @@ public class Tetris extends JFrame implements GGActListener {
 
     }
 
-    void gameOver() throws IOException {
-        stats.recordStats(this.roundNum);
+    void gameOver(){
+
         gameGrid1.addActor(new Actor("sprites/gameover.gif"), new Location(5, 5));
         gameGrid1.doPause();
         if (isAuto) {
