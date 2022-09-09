@@ -66,7 +66,7 @@ public class Statistics {
         return total/roundNum;
     }
     public void recordStats(int roundNum){
-        Path file = Path.of("statistics.txt");
+        Path file = Path.of("Statistics.txt");
         try (
             FileWriter fileWriter = new FileWriter(file.toFile());
 
